@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login | lalala
+{% endblock %}
+
+{% block content %}
+<h1>Register</h1>
+<form method="post">
+    <label for="username" class="form-label">Username :
+        <input type="text" name="username" class="form-control" id="username" required />
+    </label>
+    <label for="email" class="form-label">Email :
+        <input type="email" name="email" class="form-control" id="email" required />
+    </label>
+    <label for="password" class="form-label">Password :
+        <input type="password" name="password" class="form-control" id="password" required />
+    </label>
+
+    <label for="profile_pic" class="form-label">Profile Picture :
+        <input type="file" name="profile_pic" class="form-control" id="profile_pic" accept=".jpg, .jpeg" />
+    </label>
+
+    <input type="submit" value="Register" class="btn btn-success mt-3">
+
+    <p class="mt-4">
+        or <a href="/login">Log in</a> instead.
+    </p>
+</form>
+{% endblock %}
+
+{% block style %}
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        text-align: center;
+        margin: 40px 0 20px 0;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,62 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid border-bottom">
+    <a class="navbar-brand" href="/">lalala</a>
+    <ul class="navbar-nav " id="navbarNavDropdown">
+      {% if user %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Profile
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <li class="px-3 pb-2 text-muted border-bottom">@{{user.username}}</li>
+          <li><a class="dropdown-item" href="/profile">Profile</a></li>
+          <li><a class="dropdown-item" href="/logout">Log out</a></li>
+        </ul>
+      </li>
+
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/register">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Log in</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .navbar-brand {
+    font-size: x-large;
+  }
+
+  ul.dropdown-menu.show {
+    left: auto;
+    right: 0;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .navbar {
+    font-size: large;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 2vw;
+  }
+
+  .navbar-nav .dropdown-menu {
+    position: absolute;
+  }
+</style>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile | lalala
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 py-3 border-bottom"><span class="text-muted">@{{user.username}}</span> : profile / edit details</h1>
+
+<form method="post">
+    <!-- <h3 class="my-4">Edit Details : </h3> -->
+    <label for="username" class="form-label">New Username :
+        <input type="text" name="username" class="form-control" id="username" value="{{user.username}}" />
+    </label>
+    <label for="email" class="form-label">New Email :
+        <input type="email" name="email" class="form-control" id="email" required value="{{user.email}}" />
+    </label>
+    <label for="cpassword" class="form-label">Current Password :
+        <input type="password" name="cpassword" class="form-control" id="cpassword" placeholder="********" />
+    </label>
+    <label for="password" class="form-label">New Password :
+        <input type="password" name="password" class="form-control" id="password" placeholder="********" />
+    </label>
+
+    <input type="submit" value="Save Changes" class="btn btn-success mt-4">
+</form>
+{% endblock %}
+
+
+{% block style %}
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        text-align: center;
+    }
+</style>
+{% endblock %}
