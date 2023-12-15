@@ -4,7 +4,7 @@
     <ul class="navbar-nav " id="navbarNavDropdown">
       {% if user %}
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle p-0 border-left" href="#" id="navbarDropdownMenuLink" role="button"
+        <a class="nav-link dropdown-toggle py-0 px-2 border-left" href="#" id="navbarDropdownMenuLink" role="button"
           data-bs-toggle="dropdown" aria-expanded="false">
           <img src="{{user.pfp_url}}">
           <span class="h4 px-2 text-muted">@{{user.username}}</span>
@@ -12,9 +12,13 @@
 
         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <li class="px-3 pb-2 text-muted border-bottom">@{{user.username}}</li>
-          <li><a class="dropdown-item" href="/profile">Profile</a></li>
+
+          {% if not user.is_admin %}
+          <li><a class="dropdown-item" href="/profile">My Profile</a></li>
           <li><a class="dropdown-item" href="/creator">Creator Profile</a></li>
-          <li><a class="dropdown-item" href="/logout">Log out</a></li>
+          {% endif %}
+
+          <li><a class="dropdown-item outline-danger" href="/logout">Log out</a></li>
         </ul>
       </li>
 
@@ -42,7 +46,8 @@
 
   ul.dropdown-menu.show {
     left: auto;
-    right: 10px;
+    margin-top: 5px;
+    right: 5px;
   }
 
   .dropdown-toggle::after {

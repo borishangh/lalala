@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends '/components/base.html' %}
 
 {% block title %}
 Profile | lalala
@@ -7,23 +7,38 @@ Profile | lalala
 {% block content %}
 <h1 class="mb-4 py-3 border-bottom"><span class="text-muted">@{{user.username}}</span> : profile / edit details</h1>
 
-<form method="post">
-    <!-- <h3 class="my-4">Edit Details : </h3> -->
-    <label for="username" class="form-label">New Username :
-        <input type="text" name="username" class="form-control" id="username" value="{{user.username}}" />
-    </label>
-    <label for="email" class="form-label">New Email :
-        <input type="email" name="email" class="form-control" id="email" required value="{{user.email}}" />
-    </label>
-    <label for="cpassword" class="form-label">Current Password :
-        <input type="password" name="cpassword" class="form-control" id="cpassword" placeholder="********" />
-    </label>
-    <label for="password" class="form-label">New Password :
-        <input type="password" name="password" class="form-control" id="password" placeholder="********" />
-    </label>
+<div class="profile-body">
+    {% with img_src = user.pfp_url,title = user.username, subtitle = user.email %}
+    {% include '/components/box.html' %}
+    {% endwith %}
 
-    <input type="submit" value="Save Changes" class="btn btn-success mt-4">
-</form>
+    <div class="vr"></div>
+
+    <form method="post" enctype="multipart/form-data">
+        <!-- <h3 class="my-4">Edit Details : </h3> -->
+        <label for="username" class="form-label">New Username :
+            <input type="text" name="username" class="form-control" id="username" value="{{user.username}}" />
+        </label>
+        <label for="email" class="form-label">New Email :
+            <input type="email" name="email" class="form-control" id="email" required value="{{user.email}}" />
+        </label>
+
+        <label for="pfp" class="form-label">Change Profile Picture :
+            <input type="file" name="pfp" class="form-control" id="pfp" accept=".jpg, .jpeg" />
+        </label>
+
+        <label for="cpassword" class="form-label">Current Password :
+            <input type="password" name="cpassword" class="form-control" id="cpassword" placeholder="********" />
+        </label>
+        <label for="password" class="form-label">New Password :
+            <input type="password" name="password" class="form-control" id="password" placeholder="********" />
+        </label>
+
+        <input type="submit" value="Save Changes" class="btn btn-success mt-4">
+    </form>
+
+</div>
+
 {% endblock %}
 
 
@@ -37,6 +52,18 @@ Profile | lalala
 
     h1 {
         text-align: center;
+    }
+
+    .profile-body {
+        display: flex;
+        flex-direction: row;
+        gap: min(40px, 4vw);
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    label {
+        width: 100%
     }
 </style>
 {% endblock %}

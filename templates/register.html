@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends '/components/base.html' %}
 
 {% block title %}
 Login | lalala
@@ -6,6 +6,7 @@ Login | lalala
 
 {% block content %}
 <h1>Register</h1>
+
 <form method="post" enctype=multipart/form-data>
     <label for="username" class="form-label">Username :
         <input type="text" name="username" class="form-control" id="username" required />
@@ -40,6 +41,9 @@ Login | lalala
     h1 {
         text-align: center;
         margin: 40px 0 20px 0;
+    }
+    label{
+        width: min(350px, 70vw);
     }
 </style>
 {% endblock %}

@@ -1,0 +1,84 @@
+{% extends '/components/base.html' %}
+
+{% block title %}
+Creator | lalala
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 py-4 border-bottom"><span class="text-muted">@{{user.username}}</span> : creator profile</h1>
+
+<div class="creator-body container">
+    <div class="d-flex flex-row align-items-start">
+        {% with img_src = user.pfp_url,title = user.username, subtitle = user.email %}
+        {% include '/components/box.html' %}
+        {% endwith %}
+        <div class="vr mx-2"></div>
+
+        <div class="w-100">
+            <h2 class="border-bottom py-2">Best Performing</h2>
+            <ol>
+                <li>Song 1 </li>
+                <li>Song 2 </li>
+                <li>Song 3 </li>
+                <li>Song 4 </li>
+                <li>Song 5 </li>
+            </ol>
+        </div>
+
+    </div>
+    <div class="my-3">
+        <h2 class="border-bottom py-2 mt-3">Your Tracks
+        </h2>
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#song-details">
+            Add Song
+        </button>
+
+        <div class="modal fade" id="song-details" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="song-details-title">Song Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form method="post" enctype="multipart/form-data">
+                            <label for="songname" class="form-label w-100">Song name :
+                                <input type="text" name="songname" class="form-control my-1" id="songname" />
+                            </label>
+                            <label for="songfile" class="form-label w-100">Add Song file :
+                                <input type="file" name="songfile" class="form-control my-1" id="songfile"
+                                    accept=".mp3" />
+                            </label>
+                            <label for="lyrics" class="form-label w-100">Lyrics :
+                                <textarea name="lyrics" class="form-control my-1" id="lyrics" rows="12"
+                                    placeholder="Paste your lyrics here."></textarea>
+                            </label>
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" name="song" value="Save Changes" class="btn btn-primary"
+                                data-bs-dismiss="modal">
+                        </form>
+
+
+                        <!-- <button type="submit" name="song" class="btn btn-primary" data-bs-dismiss="modal">Save
+                            changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <h2 class="border-bottom py-2 mt-3">Your Albums</h2>
+</div>
+
+{% endblock %}
+
+{% block style %}
+<style>
+</style>
+{% endblock %}
