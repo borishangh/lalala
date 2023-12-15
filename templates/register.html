@@ -6,7 +6,7 @@ Login | lalala
 
 {% block content %}
 <h1>Register</h1>
-<form method="post">
+<form method="post" enctype=multipart/form-data>
     <label for="username" class="form-label">Username :
         <input type="text" name="username" class="form-control" id="username" required />
     </label>
@@ -17,11 +17,11 @@ Login | lalala
         <input type="password" name="password" class="form-control" id="password" required />
     </label>
 
-    <label for="profile_pic" class="form-label">Profile Picture :
-        <input type="file" name="profile_pic" class="form-control" id="profile_pic" accept=".jpg, .jpeg" />
+    <label for="pfp" class="form-label my-3">Profile Picture <span class="text-muted">(Optional)</span> :
+        <input type="file" name="pfp" class="form-control" id="pfp" accept=".jpg, .jpeg" />
     </label>
 
-    <input type="submit" value="Register" class="btn btn-success mt-3">
+    <input type="submit" value="Register" class="btn btn-success my-3">
 
     <p class="mt-4">
         or <a href="/login">Log in</a> instead.

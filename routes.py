@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from werkzeug.utils import secure_filename
 from models import db, User
 from app import app
 
@@ -89,6 +90,9 @@ def login_post():
 def register():
     return render_template("register.html")
 
+import os
+from image import save_img
+
 
 @app.route("/register", methods=["post"])
 def register_post():
@@ -109,7 +113,21 @@ def register_post():
         return redirect(url_for("register"))
 
     user = User(username=username, email=email, password=password)
+
+    print(*request.files)
+
     db.session.add(user)
+    db.session.commit()
+
+    if "pfp" in request.files:
+        pfp_file = request.files["pfp"]
+        print(pfp_file)
+        pfp_url = os.path.join(
+            app.config["UPLOAD_FOLDER"], "accounts", str(user.id) + "_pfp.jpg"
+        )
+        save_img(pfp_file, pfp_url)
+        user.pfp_url = pfp_url
+
     db.session.commit()
     flash("User successfully registered")
     return redirect(url_for("index"))

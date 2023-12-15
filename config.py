@@ -10,3 +10,4 @@ app.config["SQLALCHEMY_TRACK_NOTIFICATIONS"] = os.getenv(
     "SQLALCHEMY_TRACK_NOTIFICATIONS"
 )
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER")
