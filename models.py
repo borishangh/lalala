@@ -44,6 +44,7 @@ class Song(db.Model):
     __tablename__ = "songs"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     song_name = db.Column(db.String(255), nullable=False)
+    song_url = db.Column(db.String(255), nullable=False)
 
     creator_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     album_id = db.Column(db.Integer, db.ForeignKey("albums.id"))

@@ -1,8 +1,9 @@
 import os
+import uuid
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
-from models import db, User
+from models import db, User, Song, Album, Rating
 from app import app
 from image import save_img
 from routes import auth_required
@@ -31,6 +32,10 @@ def creator_post():
         if not songfile:
             flash('Song file cannot be empty.')
             return redirect(url_for("creator"))
+        
+        song_url = os.path.join(app.config["UPLOAD_FOLDER"], "accounts", str(uuid.uuid4.hex) + "_pfp.jpg")
+        
+        song = Song(song_name = songname, )
 
         print(songname, lyrics, songfile)
         flash("Track added successfully")
