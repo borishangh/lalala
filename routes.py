@@ -2,7 +2,7 @@ import os, uuid
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
-from models import db, User
+from models import db, User, Song, Album, Rating
 from app import app
 from image import save_img
 
@@ -25,7 +25,8 @@ def index():
     print(user.is_admin)
     if user.is_admin:
         return redirect(url_for("admin"))
-    return render_template("index.html", user=user)
+    featured = Song.query.order_by(Song.plays.desc()).limit(12).all()
+    return render_template("index.html", user=user, featured=featured)
 
 
 @app.route("/admin")

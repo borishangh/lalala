@@ -8,5 +8,4 @@ import models
 
 import routes
 import creator_routes
-
-
+import index_routes

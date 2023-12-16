@@ -5,6 +5,77 @@ Home | lalala
 {% endblock %}
 
 {% block content %}
-<h1>Home</h1>
-<p>{{user.username}}</p>
+<div>
+    <div class="sidebar small bg-light border border-top-0 p-3" style="width: min(400px, 25vw);">
+        {% if now_playing %}
+        <img src="{{now_playing.album.album_cover_url or '/static/default_album.jpg'}}" class="img-fluid w-100">
+
+        <h3 class="my-2">{{now_playing.song_name}}</h3>
+        <h4>
+            <span class="text-muted">@{{now_playing.user.username}}</span> / {{now_playing.album.album_name}}
+        </h4>
+        <audio controls class="w-100 p-0 my-2" id="audio-player" src="{{now_playing.song_url}}"></audio>
+
+        <h4 class="border-bottom pb-2 mb-2">Lyrics</h4>
+        <p class="lyrics overflow-auto">{{now_playing.lyrics}}</p>
+
+        {% endif %}
+
+    </div>
+    <div class="main px-5 py-4">
+        <h1>Home</h1>
+        <h2 class="border-bottom py-2 mt-3">Featured Songs</h2>
+        <div class="featured-songs d-flex">
+            {% for song in featured %}
+            <div class="card m-1 bg-light" style="width: 10em">
+                <div class="card-body p-2">
+                    <img src="{{song.album.album_cover_url or '/static/default_album.jpg'}}" class="card-img-top ">
+                    <h5 class="card-title my-2">{{song.song_name}}</h5>
+                    <p class="card-text">{{song.user.username}}</p>
+
+                    <form method="post" class="play-song-form">
+                        <input type="hidden" name="play-song" value="{{song.id}}">
+                        <input type="submit" value="Play">
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.onload = () => {
+        player = document.getElementById('audio-player')
+        console.log(play)
+        player.play()
+    }
+</script>
+{% endblock %}
+
+{% block style %}
+<style>
+    .sidebar {
+        position: fixed;
+        height: 100%;
+    }
+
+    .main {
+        margin-top: 5vh;
+        margin-left: min(400px, 25vw);
+    }
+
+    .sidebar {
+        overflow: auto;
+    }
+
+    .lyrics {
+        white-space: pre-wrap;
+        margin-bottom: 20px;
+        overflow: auto;
+    }
+</style>
 {% endblock %}
