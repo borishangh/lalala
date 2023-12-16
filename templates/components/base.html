@@ -36,10 +36,10 @@
 <body>
     {% include '/components/nav-auth.html' %}
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-danger alert-dismissible fade show">
+    {% for category,message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible fade show">
         {{message}}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -54,6 +54,8 @@
 
     {% block script %}
     {% endblock %}
+
+    {% include '/components/player.html' %}
 
 </body>
 

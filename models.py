@@ -16,6 +16,9 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     passhash = db.Column(db.String(255), nullable=False)
 
+    songs = db.relationship("Song", backref="user", lazy=True)
+    albums = db.relationship("Album", backref="user", lazy=True)
+
     @property
     def password(self):
         raise AttributeError("password is not a readable attrivute")
@@ -33,7 +36,7 @@ class Album(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     album_name = db.Column(db.String(255), nullable=False)
     creator_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    album_cover_url = db.Column(db.String(255))
+    album_cover_url = db.Column(db.String(255), default="static/default_album.jpg")
     created = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationship with songs

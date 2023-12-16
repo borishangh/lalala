@@ -1,4 +1,4 @@
-import os
+import os, uuid
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
@@ -11,7 +11,7 @@ def auth_required(func):
     @wraps(func)
     def inner(*args, **kwargs):
         if "user_id" not in session:
-            flash("please login to continue")
+            flash("please login to continue", "warning")
             return redirect(url_for("login"))
         return func(*args, **kwargs)
 
@@ -34,6 +34,7 @@ def admin():
     user = User.query.get(session["user_id"])
     return render_template("admin.html", user=user)
 
+
 @app.route("/profile")
 @auth_required
 def profile():
@@ -51,30 +52,30 @@ def profile_post():
     password = request.form.get("password")
 
     if username == "" or email == "":
-        flash("Username or email cannot be empty")
+        flash("Username or email cannot be empty", "danger")
         return redirect(url_for("profile"))
 
     if not user.check_password(cpassword) and cpassword != "":
-        flash("Incorrect password entered.")
+        flash("Incorrect password entered.", "danger")
         return redirect(url_for("profile"))
 
-    print(*request.files)
-
-    if "pfp" in request.files:
-        pfp_file = request.files["pfp"]
-        if pfp_file:
+    pfp_file = request.files["pfp"]
+    if pfp_file:
+        if user.pfp_url == "static/default_pfp.jpg":
             pfp_url = os.path.join(
-                app.config["UPLOAD_FOLDER"], "accounts", str(user.id) + "_pfp.jpg"
+                app.config["UPLOAD_FOLDER"],
+                "accounts",
+                str(uuid.uuid4().hex) + "_pfp.jpg",
             )
-            save_img(pfp_file, pfp_url)
             user.pfp_url = pfp_url
+        save_img(pfp_file, user.pfp_url)
 
     user.username = username
     user.email = email
     user.password = password
 
     db.session.commit()
-    flash("Profile updated successfully")
+    flash("Profile updated successfully", "success")
     return redirect(url_for("index"))
 
 
@@ -90,15 +91,15 @@ def login_post():
     user = User.query.filter_by(username=username).first()
 
     if username == "" and password == "":
-        flash("username or password cannot be empty")
+        flash("username or password cannot be empty", "danger")
         return redirect(url_for("login"))
 
     if not user:
-        flash("user doesnot exist")
+        flash("user doesnot exist", "danger")
         return redirect(url_for("login"))
 
     if not user.check_password(password):
-        flash("incorrect password")
+        flash("incorrect password", "danger")
         return redirect(url_for("login"))
 
     session["user_id"] = user.id
@@ -117,33 +118,30 @@ def register_post():
     password = request.form.get("password")
 
     if username == "" or password == "" or email == "":
-        flash("username, email or password cannot be empty")
+        flash("username, email or password cannot be empty", "danger")
         return redirect(url_for("register"))
 
     if User.query.filter_by(username=username).first():
-        flash("username already exists")
+        flash("username already exists", "danger")
         return redirect(url_for("register"))
 
     if User.query.filter_by(email=email).first():
-        flash("Someone with that email already exists")
+        flash("Someone with that email already exists", "danger")
         return redirect(url_for("register"))
 
     user = User(username=username, email=email, password=password)
+    pfp_file = request.files["pfp"]
+    if pfp_file:
+        pfp_url = os.path.join(
+            app.config["UPLOAD_FOLDER"], "accounts", str(uuid.uuid4().hex) + "_pfp.jpg"
+        )
+        save_img(pfp_file, pfp_url)
+        user.pfp_url = pfp_url
 
     db.session.add(user)
     db.session.commit()
 
-    if "pfp" in request.files:
-        pfp_file = request.files["pfp"]
-        if pfp_file:
-            pfp_url = os.path.join(
-                app.config["UPLOAD_FOLDER"], "accounts", str(user.id) + "_pfp.jpg"
-            )
-            save_img(pfp_file, pfp_url)
-            user.pfp_url = pfp_url
-
-    db.session.commit()
-    flash("User successfully registered")
+    flash("User successfully registered", "success")
     return redirect(url_for("index"))
 
 
